@@ -1,5 +1,3 @@
-
-
 exports.handler = async function (snap, db) {
         const userVote = snap.data();
         console.log(`vote answerID: ${userVote.answerID}`);

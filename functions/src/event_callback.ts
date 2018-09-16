@@ -21,15 +21,16 @@ exports.handler = async function(request, response, db, slack) {
                 return response.status(401).send("Invalid request token!");
             }
 
-            console.log('action event type: ' + request.body.event.type);
+            console.log('event type: ' + request.body.event.type);
 
             switch (request.body.event.type) {
-                case 'message': {
-                    const action = request.body as SlackMessageAction;
+                case 'team_join': {
+                    console.info(`request body: ${request.body}`);
+                    const action = request.body as SlackUserChangeAction;
 
                     const welcomeTextWeb = "1. Upload your avatar image to Slack.\n" +
-                        "2. Log in to the web app here  👉 httos://producer.chat/login\n" +
-                        "3. Ask the community from here 👉 https://producer.chat/qa";
+                        "2. Log in to the web app here  👉 https://producer-chat.herokuapp.com/login\n" +
+                        "3. Ask feedback community from here 👉 https://producer-chat.herokuapp.com/feedback";
 
                     const welcomeTextSlack = "- Post your introduction to #general channel\n" +
                         "- Join any channel you want from the little '+' button on the left sidebar of Slack\n";
@@ -52,10 +53,11 @@ exports.handler = async function(request, response, db, slack) {
                         channel: ''
                     };
 
-                    message.channel = action.event.user;
+                    console.info(`message channel: ${message.channel}`);
+                    message.channel = action.event.user.id;
 
                     const params = qs.stringify(message);
-                    console.info(params);
+                    console.info(`params: ${params}`);
 
                     axios.post('https://slack.com/api/chat.postMessage', params);
                     return response.status(200).send()
