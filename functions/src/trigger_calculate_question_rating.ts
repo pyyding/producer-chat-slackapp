@@ -9,6 +9,6 @@ exports.handler = async function (snap, db) {
         ratingSum += vote.data().rating;
         count++
     }
-    const ratingAvg = (ratingSum / count).toFixed(1);
+    const ratingAvg = parseFloat((ratingSum / count).toFixed(1));
     db.collection('questions').doc(answer.questionID).update({ratingAvg: ratingAvg})
 };
