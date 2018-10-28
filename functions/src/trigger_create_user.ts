@@ -20,9 +20,9 @@ exports.handler = async function (user, db, slack) {
         };
         console.log(newUser);
         db.collection('users').doc(slackUser.id).set(newUser);
-        return true
+        return true;
     } else {
         console.error('no slack user found.');
-        return false
+        return false;
     }
 };

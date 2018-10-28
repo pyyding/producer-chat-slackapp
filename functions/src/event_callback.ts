@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import {SlackMessageAction, SlackUser, SlackUserChangeAction} from './interfaces';
+import {SlackUser, SlackUserChangeAction} from './interfaces';
 const axios = require('axios');
 const qs = require('querystring');
 
@@ -8,7 +8,7 @@ exports.handler = async function(request, response, db, slack) {
     console.log(request.body.type);
     switch (request.body.type) {
         case 'url_verification': {
-            return response.status(200).send(request.body.challenge)
+            return response.status(200).send(request.body.challenge);
         }
         case 'event_callback': {
             if (request.method !== "POST") {
@@ -60,7 +60,7 @@ exports.handler = async function(request, response, db, slack) {
                     console.info(`params: ${params}`);
 
                     axios.post('https://slack.com/api/chat.postMessage', params);
-                    return response.status(200).send()
+                    return response.status(200).send();
                 }
                 case 'user_change': {
                     const action = request.body as SlackUserChangeAction;
@@ -100,11 +100,11 @@ exports.handler = async function(request, response, db, slack) {
                         const batch = db.batch();
                         questionIDs.forEach(id => {
                             const questionRef = db.collection('questions').doc(id);
-                            batch.update(questionRef, newUser)
+                            batch.update(questionRef, newUser);
                         });
                         answerIDs.forEach(id => {
                             const answerRef = db.collection('answers').doc(id);
-                            batch.update(answerRef, newUser)
+                            batch.update(answerRef, newUser);
                         });
                         batch.commit();
                         return response.status(200).send();
@@ -114,5 +114,5 @@ exports.handler = async function(request, response, db, slack) {
             }
         }
     }
-    return response.status(500).send(request.body)
+    return response.status(500).send(request.body);
 };

@@ -7,8 +7,8 @@ exports.handler = async function (snap, db) {
     console.log(`snapshot of all votes: ${snapshot}`);
     for (const vote of snapshot.docs) {
         ratingSum += vote.data().rating;
-        count++
+        count++;
     }
     const ratingAvg = parseFloat((ratingSum / count).toFixed(1));
-    db.collection('questions').doc(answer.questionID).update({ratingAvg: ratingAvg})
+    db.collection('questions').doc(answer.questionID).update({ratingAvg: ratingAvg});
 };

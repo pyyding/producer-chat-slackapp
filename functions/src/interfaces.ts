@@ -1,4 +1,3 @@
-
 export interface SlackMessageAction {
     token: string;
     team_id: string;
@@ -17,8 +16,8 @@ export interface SlackMessageAction {
     };
     type: string;
     authed_users: string[];
-    event_id: string,
-    event_time: number
+    event_id: string;
+    event_time: number;
 }
 
 export interface SlackUserChangeAction {
@@ -41,8 +40,8 @@ export interface SlackUserChangeAction {
     };
     type: string;
     authed_users: string[];
-    event_id: string,
-    event_time: number
+    event_id: string;
+    event_time: number;
 }
 
 
@@ -89,14 +88,14 @@ export interface SlackUserProfile {
 }
 
 export interface SlackSlashCommand {
-    token: string,
-    team_id: string,
-    team_domain: string,
-    channel_id: string,
-    channel_name: string,
-    user_id: string,
-    user_name: string,
-    command: string,
-    text: string,
-    response_url: string
+    token: string;
+    team_id: string;
+    team_domain: string;
+    channel_id: string;
+    channel_name: string;
+    user_id: string;
+    user_name: string;
+    command: string;
+    text: string;
+    response_url: string;
 }
