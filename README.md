@@ -15,6 +15,6 @@ firebase deploy --only functions
 1. get config: `firebase functions:config:get > .runtimeconfig.json`
 2. npm run lint
 3. npm run build
-4. firebase serve -—only functions
+4. firebase serve --only functions
 5. ngrok http 5000
 6. set request urls to ngrok urls : https://22e60853.ngrok.io/producer-chat/us-central1/message_action
