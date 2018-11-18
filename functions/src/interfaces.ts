@@ -28,6 +28,7 @@ export interface SlackUserChangeAction {
         type: string,
         user: {
             id: string
+            name: string
         },
         item: {
             type: string,

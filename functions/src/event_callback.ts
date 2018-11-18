@@ -1,10 +1,12 @@
 import * as functions from "firebase-functions";
-import {SlackUser, SlackUserChangeAction} from './interfaces';
+import { SlackUser, SlackUserChangeAction } from './interfaces';
 const axios = require('axios');
 const qs = require('querystring');
 
+import notifyEvilPlans from './notify_evil_plans';
 
-exports.handler = async function(request, response, db, slack) {
+
+exports.handler = async function (request, response, db, slack) {
     console.log(request.body.type);
     switch (request.body.type) {
         case 'url_verification': {
@@ -32,7 +34,7 @@ exports.handler = async function(request, response, db, slack) {
                         "2. Download Slack desktop and mobile app 👉 https://slack.com/downloads\n" +
                         "3. Log in to the web app here 👉 https://producer.chat/login";
 
-                    const welcomeTextSlack = "- Post your introduction to #general channel\n" +
+                    const welcomeTextSlack = "- Post your introduction to #intros channel\n" +
                         "- Join any channel you want from the little '+' button on the left sidebar of Slack\n";
                     const message = {
                         token: functions.config().slack.bot_access_token,
@@ -58,15 +60,22 @@ exports.handler = async function(request, response, db, slack) {
 
                     const params = qs.stringify(message);
                     console.info(`params: ${params}`);
-
                     axios.post('https://slack.com/api/chat.postMessage', params);
+
+                    slack.users.info({ user: action.event.user.id, token: functions.config().slack.access_token })
+                        .then(slackResponse => {
+                            if (slackResponse.ok) {
+                                const slackUser = slackResponse.user as SlackUser;
+                                notifyEvilPlans(slackUser.profile.display_name);
+                            }
+                        });
                     return response.status(200).send();
                 }
                 case 'user_change': {
                     const action = request.body as SlackUserChangeAction;
                     console.info('triggered user change: ' + action.event.user.id);
                     const slackResponse = await
-                    slack.users.info({user: action.event.user.id, token: functions.config().slack.access_token});
+                        slack.users.info({ user: action.event.user.id, token: functions.config().slack.access_token });
                     if (slackResponse.ok) {
                         console.log('slackUser found, commiting changes');
                         const slackUser = slackResponse.user as SlackUser;
@@ -84,14 +93,14 @@ exports.handler = async function(request, response, db, slack) {
                         };
 
                         const questionsRef = await
-                        db.collection('questions').where('user.id', '==', action.event.user.id).get();
+                            db.collection('questions').where('user.id', '==', action.event.user.id).get();
                         const questionIDs = [];
                         questionsRef.forEach(question => {
                             questionIDs.push(question.id);
                         });
 
                         const answersRef = await
-                        db.collection('answers').where('user.id', '==', action.event.user.id).get();
+                            db.collection('answers').where('user.id', '==', action.event.user.id).get();
                         const answerIDs = [];
                         answersRef.forEach(answer => {
                             answerIDs.push(answer.id);
@@ -116,3 +125,4 @@ exports.handler = async function(request, response, db, slack) {
     }
     return response.status(500).send(request.body);
 };
+
