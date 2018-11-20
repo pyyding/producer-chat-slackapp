@@ -36,6 +36,11 @@ exports.handler = async function (request, response, db, slack) {
 
                     const welcomeTextSlack = "- Post your introduction to #intros channel\n" +
                         "- Join any channel you want from the little '+' button on the left sidebar of Slack\n";
+
+                    const slackCommandsText = "/add - for adding todos\n" +
+                        "/done - for adding tasks you did today\n" +
+                        "/tasks - shows your tasks page URL\n" +
+                        "/helpme - shows list of available commands";
                     const message = {
                         token: functions.config().slack.bot_access_token,
                         as_user: true,
@@ -45,7 +50,12 @@ exports.handler = async function (request, response, db, slack) {
                             {
                                 title: "Let's get you started! 😊",
                                 text: welcomeTextWeb,
-                                color: '#74c8ed',
+                                color: '#1a4367',
+                            },
+                            {
+                                title: "Slack commands: ",
+                                text: slackCommandsText,
+                                color: "#20be99"
                             },
                             {
                                 title: "Some tips: ",

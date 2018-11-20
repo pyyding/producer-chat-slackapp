@@ -7,6 +7,7 @@ const { WebClient } = require('@slack/client');
 const event_callback_function = require('./event_callback');
 const add_todo_function = require("./add_todo");
 const return_tasks_page_function = require("./return_tasks_page");
+const help_command_function = require("./help_command");
 
 // import trigger functions
 const trigger_calculate_vote_sum_function = require('./trigger_calculate_vote_sum');
@@ -16,6 +17,9 @@ const trigger_calculate_user_streak_function = require('./trigger_calculate_user
 const trigger_calculate_user_total_tracks_function = require('./trigger_calculate_user_total_tracks');
 const trigger_task_completed_function = require('./trigger_task_completed');
 const cron_calculate_streaks_function = require('./cron_calculate_streaks');
+
+// admin functions
+const test_welcome_text_function = require('./test_welcome_text');
 
 // An access token (from your Slack app or custom integration - xoxp, xoxb, or xoxa)
 const key = functions.config().slack.key;
@@ -72,3 +76,12 @@ export const return_tasks_page = functions.https.onRequest(async (request, respo
 export const cron_calculate_streaks = functions.https.onRequest(async (request, response) => {
     return cron_calculate_streaks_function.handler(request, response, db);
 });
+
+export const test_welcome_text = functions.https.onRequest(async (request, response) => {
+    return test_welcome_text_function.handler(request, response, db, slack);
+});
+
+export const help_command = functions.https.onRequest(async (request, response) => {
+    return help_command_function.handler(request, response);
+});
+
