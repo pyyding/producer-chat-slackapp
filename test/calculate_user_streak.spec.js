@@ -33,7 +33,7 @@ describe("Cloud Functions", () => {
         //         }
         //     });
 
-        myFunctions = require("../index.ts");
+        myFunctions = require("../functions/src/index.js");
     });
 
     afterAll(() => {

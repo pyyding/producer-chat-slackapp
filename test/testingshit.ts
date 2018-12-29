@@ -12,7 +12,7 @@ describe("Cloud Functions", () => {
     before(() => {
         functions.mockConfig({slack: {key: "test-slack-key"}});
         adminInitStub = sinon.stub(admin, "initializeApp");
-        myFunctions = require("./../index");
+        myFunctions = require("../functions/src/index");
         debugger;
     });
 

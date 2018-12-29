@@ -1,5 +1,5 @@
 const functions = require("firebase-functions-test")();
-import {help_command} from "./../index";
+import {help_command} from "../functions/src/index";
 
 const chai = require("chai");
 const assert = chai.assert;
@@ -18,7 +18,7 @@ describe("help_command", () => {
 
     beforeAll(() => {
         initializeApp = sinon.stub();
-        myFunctions = require("../index");
+        myFunctions = require("../functions/src/index");
         firebaseFunctions.config = jest.fn(() => {
             return {slack: {key: "test-slack-key"}};
         });

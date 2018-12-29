@@ -1,5 +1,5 @@
+const StreakHelper = require("./streak_helper");
 import { COLLECTIONS } from "./constants";
-import { calculateStreak } from "./streak_helper";
 
 exports.handler = async function(change, db) {
   const task = change.after.data();
@@ -15,8 +15,10 @@ exports.handler = async function(change, db) {
     .orderBy("doneAt", "desc")
     .get();
   const tasks = snapshot.docs;
-  const streak = calculateStreak(tasks);
+  const streak = StreakHelper.calculateStreak(tasks);
+  console.log("streak : " + streak);
+  console.log("task user id:" + task.user.id);
   db.collection(COLLECTIONS.USERS)
     .doc(task.user.id)
-    .update({ streak: streak });
+    .update({ streak });
 };

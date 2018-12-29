@@ -51,8 +51,8 @@ exports.trigger_calculate_question_rating = functions.firestore.document("answer
 
 
 exports.trigger_calculate_user_streak = functions.firestore.document("tasks/{taskID}")
-    .onCreate(async (snap, _context) => {
-        return trigger_calculate_user_streak_function.handler(snap, db);
+    .onUpdate(async (change, _context) => {
+        return trigger_calculate_user_streak_function.handler(change, db);
     });
 
 exports.trigger_calculate_user_total_tracks = functions.firestore.document("questions/{questionID}")
@@ -61,8 +61,8 @@ exports.trigger_calculate_user_total_tracks = functions.firestore.document("ques
     });
 
 exports.trigger_task_completed = functions.firestore.document("tasks/{taskID}")
-    .onCreate(async (snap, _context) => {
-        return trigger_task_completed_function.handler(snap, db, slack);
+    .onUpdate(async (change, _context) => {
+        return trigger_task_completed_function.handler(change.after, db, slack);
     });
 
 exports.add_todo = functions.https.onRequest(async (request, response) => {

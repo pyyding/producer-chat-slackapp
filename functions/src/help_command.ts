@@ -1,5 +1,5 @@
 import * as functions from "firebase-functions";
-import { SlackSlashCommand } from './interfaces';
+import { SlackSlashCommand } from "./interfaces";
 
 
 exports.handler = async function (request, response) {

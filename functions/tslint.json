@@ -6,6 +6,10 @@
     // Force semicolons
     "semicolon": true,
 
+    "indent": [true, "spaces", 2],
+
+    "quotemark": [true, "double"],
+
     // Force function overloads to be declared together. This ensures readers understand APIs.
     "adjacent-overload-signatures": true,
 

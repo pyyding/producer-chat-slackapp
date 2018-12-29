@@ -1,7 +1,7 @@
-const axios = require('axios');
-const qs = require('querystring');
+const axios = require("axios");
+const qs = require("querystring");
 import * as functions from "firebase-functions";
-import { SlackSlashCommand } from './interfaces';
+import { SlackSlashCommand } from "./interfaces";
 
 
 exports.handler = async function (request, response, db, slack) {
@@ -37,12 +37,12 @@ exports.handler = async function (request, response, db, slack) {
     token: functions.config().slack.bot_access_token,
     as_user: true,
     link_names: true,
-    text: 'Welcome to Producer Chat! We\'re glad you\'re here.',
+    text: "Welcome to Producer Chat! We're glad you're here.",
     attachments: JSON.stringify([
       {
         title: "Let's get you started! 😊",
         text: welcomeTextWeb,
-        color: '#1a4367',
+        color: "#1a4367",
       },
       {
         title: "Slack commands: ",
@@ -52,10 +52,10 @@ exports.handler = async function (request, response, db, slack) {
       {
         title: "Some tips: ",
         text: welcomeTextSlack,
-        color: '#3060f0'
+        color: "#3060f0"
       }]),
-    channel: 'GE11SAG8G'
+    channel: "GE11SAG8G"
   };
   const params = qs.stringify(message);
-  axios.post('https://slack.com/api/chat.postMessage', params);
+  axios.post("https://slack.com/api/chat.postMessage", params);
 };

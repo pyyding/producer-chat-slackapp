@@ -1,4 +1,4 @@
-import {help_command} from "./../index";
+import {help_command} from "../functions/src/index";
 
 const sinon = require("sinon");
 
@@ -13,7 +13,7 @@ describe("help_command", () => {
 
     beforeAll(() => {
         initializeApp = sinon.stub();
-        myFunctions = require("../index");
+        myFunctions = require("../functions/src/index");
         firebaseFunctions.config = jest.fn(() => {
             return {slack: {key: "test-slack-key"}};
         });

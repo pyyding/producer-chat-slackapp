@@ -1,8 +1,8 @@
 import * as functions from "firebase-functions";
-import { SlackSlashCommand } from './interfaces';
-import { COLLECTIONS } from './constants';
-const axios = require('axios');
-const qs = require('querystring');
+import { SlackSlashCommand } from "./interfaces";
+import { COLLECTIONS } from "./constants";
+const axios = require("axios");
+const qs = require("querystring");
 
 
 exports.handler = async function (request, response, db, slack) {
