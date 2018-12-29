@@ -6,6 +6,7 @@ const {WebClient} = require("@slack/client");
 // import functions
 const event_callback_function = require("./event_callback");
 const add_todo_function = require("./add_todo");
+const add_done_todo_function = require("./add_done_todo");
 const return_tasks_page_function = require("./return_tasks_page");
 const help_command_function = require("./help_command");
 
@@ -65,8 +66,17 @@ exports.trigger_task_completed = functions.firestore.document("tasks/{taskID}")
         return trigger_task_completed_function.handler(change.after, db, slack);
     });
 
+exports.trigger_task_completed2 = functions.firestore.document("tasks/{taskID}")
+    .onCreate(async (snap, _context) => {
+        return trigger_task_completed_function.handler(snap, db, slack);
+    });
+
 exports.add_todo = functions.https.onRequest(async (request, response) => {
     return add_todo_function.handler(request, response, db, slack);
+});
+
+exports.add_done_todo = functions.https.onRequest(async (request, response) => {
+    return add_done_todo_function.handler(request, response, db, slack);
 });
 
 exports.return_tasks_page = functions.https.onRequest(async (request, response) => {
