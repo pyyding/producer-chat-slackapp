@@ -1,4 +1,4 @@
-const streakHelper = require("./../streak_helper");
+const streakHelper = require("../streak_helper.js");
 
 describe("streak_helper", () => {
     class MockTask {
@@ -10,6 +10,11 @@ describe("streak_helper", () => {
             return {toDate: () => new Date(this.date)};
         }
     }
+
+    beforeAll(() => {
+        const now = new Date(1543769769005);
+        global.Date.now = jest.fn(() => now);
+    });
 
     it("should work with multiple", () => {
 

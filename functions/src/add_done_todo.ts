@@ -35,6 +35,7 @@ exports.handler = async function (request, response, db, slack) {
             photoURL: user.photoURL
         },
         createdAt: new Date(),
+        doneAt: new Date(),
         isDone: true
     };
 

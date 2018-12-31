@@ -2,7 +2,12 @@ const StreakHelper = require("./streak_helper");
 import { COLLECTIONS } from "./constants";
 
 exports.handler = async function(change, db) {
-  const task = change.after.data();
+  let task;
+  if (change.after) {
+      task = change.after.data();
+  } else {
+    task = change.data();
+  }
   console.log(`task by: ${task.user.displayName}`);
   if (!task.isDone) {
     console.log("No update needed, task marked as \"not done\"");

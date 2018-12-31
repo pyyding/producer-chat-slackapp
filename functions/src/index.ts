@@ -56,9 +56,14 @@ exports.trigger_calculate_user_streak = functions.firestore.document("tasks/{tas
         return trigger_calculate_user_streak_function.handler(change, db);
     });
 
+exports.trigger_calculate_user_streak_create = functions.firestore.document("tasks/{taskID}")
+    .onCreate(async (snap, _context) => {
+        return trigger_calculate_user_streak_function.handler(snap, db);
+    });
+
 exports.trigger_calculate_user_total_tracks = functions.firestore.document("questions/{questionID}")
     .onCreate(async (snap, _context) => {
-        return trigger_calculate_user_total_tracks_function.handler(snap, db);
+        return trigger_calculate_user_total_tracks_function.handler(snap, db, slack);
     });
 
 exports.trigger_task_completed = functions.firestore.document("tasks/{taskID}")
