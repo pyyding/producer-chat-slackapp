@@ -18,6 +18,7 @@ const trigger_calculate_user_streak_function = require("./trigger_calculate_user
 const trigger_calculate_user_total_tracks_function = require("./trigger_calculate_user_total_tracks");
 const trigger_task_completed_function = require("./trigger_task_completed");
 const cron_calculate_streaks_function = require("./cron_calculate_streaks");
+const cron_calculate_slugs = require("./cron_calculate_slugs");
 
 // admin functions
 const test_welcome_text_function = require("./test_welcome_text");
@@ -90,6 +91,10 @@ exports.return_tasks_page = functions.https.onRequest(async (request, response) 
 
 exports.cron_calculate_streaks = functions.https.onRequest(async (request, response) => {
     return cron_calculate_streaks_function.handler(request, response, db);
+});
+
+exports.cron_calculate_slugs = functions.https.onRequest(async (request, response) => {
+    return cron_calculate_slugs.handler(request, response, db);
 });
 
 exports.test_welcome_text = functions.https.onRequest(async (request, response) => {

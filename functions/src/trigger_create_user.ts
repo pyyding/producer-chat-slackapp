@@ -1,5 +1,6 @@
 import * as functions from "firebase-functions";
 import {SlackUser} from "./interfaces";
+import slugify from "slugify";
 
 exports.handler = async function (user, db, slack) {
     console.info("triggered create_user");
@@ -16,6 +17,7 @@ exports.handler = async function (user, db, slack) {
             photoURL: slackUser.profile.image_72,
             isAdmin: slackUser.is_admin,
             isRestricted: slackUser.is_restricted,
+            slug: slugify(slackUser.profile.display_name),
             createdAt: new Date()
         };
         console.log(newUser);
