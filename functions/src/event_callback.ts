@@ -34,7 +34,7 @@ exports.handler = async function (request, response, db, slack) {
                         "2. Download Slack desktop and mobile app 👉 https://slack.com/downloads\n" +
                         "3. Log in to the web app here 👉 https://producer.chat/login";
 
-                    const welcomeTextSlack = "- Post your introduction to #intros channel\n" +
+                    const welcomeTextSlack = "- Post your introduction to #general channel\n" +
                         "- Join any channel you want from the little '+' button on the left sidebar of Slack\n";
 
                     const slackCommandsText = "/add - for adding todos\n" +
