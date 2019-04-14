@@ -1,5 +1,4 @@
 import {COLLECTIONS} from "./constants";
-const StreakHelper = require("./streak_helper");
 
 exports.handler = async function (request, response, db) {
     if (request.method !== "POST") {

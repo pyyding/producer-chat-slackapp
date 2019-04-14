@@ -17,10 +17,10 @@ exports.handler = async function (request, response, db) {
     const usersSnapshot = await db.collection(COLLECTIONS.USERS).get();
 
     usersSnapshot.forEach((doc) => {
-        const user = doc.data()
+        const user = doc.data();
         const slug = slugify(user.displayName);
         db.collection(COLLECTIONS.USERS)
             .doc(user.id)
             .update({slug: slug});
-    })
+    });
 };

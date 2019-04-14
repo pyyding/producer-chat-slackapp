@@ -1,4 +1,4 @@
-exports.calculateStreak = function(tasks) {
+export const calculateStreak = function(tasks) {
     let streak = 0;
     let previousDate = new Date(Date.now());
     console.log("tasks length:" + tasks.length);
@@ -22,3 +22,5 @@ exports.calculateStreak = function(tasks) {
     console.log("streak:" +  streak);
     return streak;
 };
+
+export default { calculateStreak };

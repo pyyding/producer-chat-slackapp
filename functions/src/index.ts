@@ -7,6 +7,7 @@ const {WebClient} = require("@slack/client");
 const event_callback_function = require("./event_callback");
 const check_in_function = require("./check_in");
 const help_command_function = require("./help_command");
+const paddle_alert_handler_function = require("./paddle_alert_handler");
 
 // import trigger functions
 const trigger_calculate_vote_sum_function = require("./trigger_calculate_vote_sum");
@@ -26,7 +27,8 @@ const slack = new WebClient(key);
 
 // firestore setup
 const db = admin.firestore();
-db.settings();
+const firestoreSettings = {timestampsInSnapshots: true};
+db.settings(firestoreSettings);
 
 exports.message_action = functions.https.onRequest(async (request, response) => {
     return event_callback_function.handler(request, response, db, slack);
@@ -81,4 +83,8 @@ exports.test_welcome_text = functions.https.onRequest(async (request, response) 
 
 exports.help_command = functions.https.onRequest(async (request, response) => {
     return help_command_function.handler(request, response);
+});
+
+exports.paddle_alert_handler = functions.https.onRequest(async (request, response) => {
+   return paddle_alert_handler_function.handler(request, response);
 });
