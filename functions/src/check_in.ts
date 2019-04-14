@@ -1,11 +1,8 @@
 import * as functions from "firebase-functions";
 import { SlackSlashCommand } from "./interfaces";
 import { COLLECTIONS } from "./constants";
-const axios = require("axios");
-const qs = require("querystring");
 
-
-exports.handler = async function (request, response, db, slack) {
+exports.handler = async function (request, response, db) {
     if (request.method !== "POST") {
         console.error(`Got unsupported ${request.method} request. Expected POST.`);
         return response.status(405).send("Only POST requests are accepted");
@@ -21,7 +18,7 @@ exports.handler = async function (request, response, db, slack) {
         .status(200)
         .send({
             response_type: "ephemeral",
-            text: "Done task has been added to your profile!"
+            text: "Good job! You're checked in for today, keep it up!"
         });
 
     const userSnapshot = await db.collection(COLLECTIONS.USERS).doc(command.user_id).get();

@@ -5,9 +5,7 @@ const {WebClient} = require("@slack/client");
 
 // import functions
 const event_callback_function = require("./event_callback");
-const add_todo_function = require("./add_todo");
-const add_done_todo_function = require("./add_done_todo");
-const return_tasks_page_function = require("./return_tasks_page");
+const check_in_function = require("./check_in");
 const help_command_function = require("./help_command");
 
 // import trigger functions
@@ -16,7 +14,6 @@ const trigger_calculate_question_rating_function = require("./trigger_calculate_
 const trigger_create_user_function = require("./trigger_create_user");
 const trigger_calculate_user_streak_function = require("./trigger_calculate_user_streak");
 const trigger_calculate_user_total_tracks_function = require("./trigger_calculate_user_total_tracks");
-const trigger_task_completed_function = require("./trigger_task_completed");
 const cron_calculate_streaks_function = require("./cron_calculate_streaks");
 const cron_calculate_slugs = require("./cron_calculate_slugs");
 
@@ -29,8 +26,7 @@ const slack = new WebClient(key);
 
 // firestore setup
 const db = admin.firestore();
-const firestoreSettings = {timestampsInSnapshots: true};
-db.settings(firestoreSettings);
+db.settings();
 
 exports.message_action = functions.https.onRequest(async (request, response) => {
     return event_callback_function.handler(request, response, db, slack);
@@ -67,26 +63,8 @@ exports.trigger_calculate_user_total_tracks = functions.firestore.document("ques
         return trigger_calculate_user_total_tracks_function.handler(snap, db, slack);
     });
 
-exports.trigger_task_completed = functions.firestore.document("tasks/{taskID}")
-    .onUpdate(async (change, _context) => {
-        return trigger_task_completed_function.handler(change.after, db, slack);
-    });
-
-exports.trigger_task_completed2 = functions.firestore.document("tasks/{taskID}")
-    .onCreate(async (snap, _context) => {
-        return trigger_task_completed_function.handler(snap, db, slack);
-    });
-
-exports.add_todo = functions.https.onRequest(async (request, response) => {
-    return add_todo_function.handler(request, response, db, slack);
-});
-
-exports.add_done_todo = functions.https.onRequest(async (request, response) => {
-    return add_done_todo_function.handler(request, response, db, slack);
-});
-
-exports.return_tasks_page = functions.https.onRequest(async (request, response) => {
-    return return_tasks_page_function.handler(request, response, db, slack);
+exports.check_in = functions.https.onRequest(async (request, response) => {
+    return check_in_function.handler(request, response, db, slack);
 });
 
 exports.cron_calculate_streaks = functions.https.onRequest(async (request, response) => {

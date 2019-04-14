@@ -14,8 +14,7 @@ exports.handler = async function (request, response) {
   }
 
   const slackCommandsText = "/add - for adding todos\n" +
-    "/done - for adding tasks you did today\n" +
-    "/tasks - shows your tasks page URL\n" +
+    "/checkin - check in daily using this command\n" +
     "/helpme - shows list of available commands";
 
   response
