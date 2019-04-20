@@ -13,8 +13,7 @@ exports.handler = async function (request, response) {
     return response.status(401).send("Invalid request token!");
   }
 
-  const slackCommandsText = "/add - for adding todos\n" +
-    "/checkin - check in daily using this command\n" +
+  const slackCommandsText = "/checkin - check in daily with this command\n" +
     "/helpme - shows list of available commands";
 
   response
