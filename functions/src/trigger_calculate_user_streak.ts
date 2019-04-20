@@ -14,17 +14,23 @@ exports.handler = async function (change, db) {
     const user = userSnapshot.data();
     const prevCheckinDate = user.lastCheckin.toDate();
 
-    const prevStreak = user.streak;
-    if (differenceInDays(prevCheckinDate, new Date()) === 1) {
-        const newStreak = prevStreak + 1;
+    const difference = differenceInDays(prevCheckinDate, new Date());
+    if (difference === 1) {
+        const newStreak = user.streak + 1;
         db.collection(COLLECTIONS.USERS)
             .doc(task.user.id)
             .update({streak: newStreak, lastCheckin: new Date()});
         console.log(`new streak for ${task.user.displayName} is ${newStreak}`);
-        return true;
+        return;
+    } else if (difference > 1) {
+        db.collection(COLLECTIONS.USERS)
+            .doc(task.user.id)
+            .update({streak: 1, lastCheckin: new Date()});
+        console.log(`new streak for ${task.user.displayName} is 1`);
+        return;
     }
-    console.log(`streak for ${task.user.displayName} not updated, still ${prevStreak}`);
-    return false;
+    console.log(`streak for ${task.user.displayName} not updated, still ${user.streak}`);
+    return;
 };
 
 export function differenceInDays(date1, date2) {

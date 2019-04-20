@@ -30,7 +30,9 @@ exports.handler = async function (user, db, slack) {
             isAdmin: slackUser.is_admin,
             isRestricted: slackUser.is_restricted,
             slug,
-            createdAt: new Date()
+            createdAt: new Date(),
+            lastCheckin: new Date(),
+            streak: 0
         };
         db.collection(COLLECTIONS.USERS).doc(slackUser.id).set(newUser);
         return true;

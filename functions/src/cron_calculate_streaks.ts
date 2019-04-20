@@ -20,10 +20,12 @@ exports.handler = async function (request, response, db) {
     const now = new Date();
     for (const user of users) {
         console.log("user: " + user.id);
-       if (differenceInDays(user.lastCheckin, now) > 1) {
-           db.collection(COLLECTIONS.USERS)
-               .doc(user.id)
-               .update({streak: 0});
-       }
+
+        const lastCheckin = user.lastCheckin.getDate();
+        if (differenceInDays(lastCheckin, now) > 1) {
+            db.collection(COLLECTIONS.USERS)
+                .doc(user.id)
+                .update({streak: 0});
+        }
     }
 };
