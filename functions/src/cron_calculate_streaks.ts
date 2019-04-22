@@ -15,16 +15,15 @@ exports.handler = async function (request, response, db) {
         });
 
     const usersSnapshot = await db.collection(COLLECTIONS.USERS).get();
-    const users = usersSnapshot.docs;
 
     const now = new Date();
-    for (const user of users) {
-        console.log("user: " + user.id);
-
-        const lastCheckin = user.lastCheckin.getDate();
+    for (const doc of usersSnapshot.docs) {
+        console.log("user: " + doc.id);
+        const user = doc.data();
+        const lastCheckin = user.lastCheckin.toDate();
         if (differenceInDays(lastCheckin, now) > 1) {
             db.collection(COLLECTIONS.USERS)
-                .doc(user.id)
+                .doc(doc.id)
                 .update({streak: 0});
         }
     }
