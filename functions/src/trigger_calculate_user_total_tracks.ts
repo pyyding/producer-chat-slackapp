@@ -17,6 +17,9 @@ function createGeneralChannelPost (track, slack) {
     slack.chat.postMessage({
         channel: generalChannelID,
         text: message,
-        token: functions.config().slack.access_token
+        token: functions.config().slack.access_token,
+        unfurl_links: true,
+        unfurl_media: true,
+        parse: "full"
     });
 }
