@@ -24,6 +24,7 @@ exports.handler = async function (user, db, slack) {
         }
 
         const newUser = {
+            email: user.email,
             displayName,
             photoURL: slackUser.profile.image_72,
             isAdmin: slackUser.is_admin,
