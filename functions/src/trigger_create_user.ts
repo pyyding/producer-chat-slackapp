@@ -1,6 +1,8 @@
+const qs = require("querystring");
 import * as functions from "firebase-functions";
 import {COLLECTIONS} from "./constants";
 import slugify from "slugify";
+import axios from "axios";
 
 exports.handler = async function (user, db, slack) {
     console.info(`user: ${user.email}`);
@@ -23,6 +25,8 @@ exports.handler = async function (user, db, slack) {
             slug = `${slug}-${numberOfDuplicates}`;
         }
 
+        const cancelURL = await getCancelURL(user.email);
+
         const newUser = {
             email: user.email,
             displayName,
@@ -32,12 +36,32 @@ exports.handler = async function (user, db, slack) {
             slug,
             createdAt: new Date(),
             lastCheckin: new Date(),
-            streak: 0
+            streak: 0,
+            totalTracks: 0,
+            cancelURL
         };
         db.collection(COLLECTIONS.USERS).doc(slackUser.id).set(newUser);
+
         return true;
     } catch (e) {
         console.error(e);
         return false;
     }
 };
+
+async function getCancelURL (email) {
+    const params = qs.stringify({
+        vendor_id: functions.config().paddle.vendor_id,
+        vendor_auth_code: functions.config().paddle.vendor_auth_code
+    });
+    return axios.post("https://vendors.paddle.com/api/2.0/subscription/users", params)
+        .then(response => {
+            if (!response.data.success) {
+                console.error("failed to fetch subsriptions");
+                return false;
+            }
+            const subscriptions = response.data.response;
+            const match = subscriptions.find((subscription) => subscription.user_email === email);
+            return match.cancel_url;
+        });
+}

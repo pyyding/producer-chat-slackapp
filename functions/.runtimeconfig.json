@@ -1,8 +1,12 @@
 {
   "slack": {
     "key": "a9IboJLx1WcMIDiazPcpTizn",
-    "bot_access_token": "xoxb-397383219366-395985384388-5n3T12ArBrwtgwyR06zCzLHB",
     "access_token": "xoxp-397383219366-396043467059-395985380612-ade3572d730795df75cd83e04b17406f",
+    "bot_access_token": "xoxb-397383219366-395985384388-5n3T12ArBrwtgwyR06zCzLHB",
     "id": "397383219366.395984546068"
+  },
+  "paddle": {
+    "vendor_auth_code": "c92e9efa8deaed5fdd0cf4ac34f0173db055b6173ee8bd0f2a",
+    "vendor_id": "48919"
   }
 }
